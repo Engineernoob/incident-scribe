@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseIncident } from "@/lib/parse";
+import { parseIncident } from "../lib/parse";
 
 describe("parseIncident", () => {
   it("extracts timestamps and builds timeline", () => {

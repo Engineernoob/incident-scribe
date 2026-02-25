@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { redactSecrets } from "@/lib/redact";
+import { redactSecrets } from "../lib/redact";
 
 describe("redactSecrets", () => {
   it("redacts emails and bearer tokens", () => {
