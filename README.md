@@ -1,36 +1,208 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Incident Scribe
 
-## Getting Started
+Deterministic incident documentation generator for engineering teams.
 
-First, run the development server:
+Incident Scribe converts raw logs, timelines, and notes into structured:
 
-```bash
+Status Updates
+
+Postmortems
+
+Action Item Lists
+
+Designed for repeatability, testability, and production workflows.
+
+Why This Exists
+
+During incidents, engineers waste time:
+
+Rewriting status updates manually
+
+Building postmortems from scattered logs
+
+Extracting timelines from noisy output
+
+Forgetting to redact sensitive data
+
+Incident Scribe makes incident documentation:
+
+Structured
+
+Repeatable
+
+Deterministic
+
+Testable
+
+No AI randomness. No hallucinations. Just consistent outputs derived from your input.
+
+Features
+Deterministic Generation
+
+Produces predictable Markdown output using rule-based parsing and structured templates.
+
+Timeline Extraction
+
+Detects and extracts timestamps from logs to construct incident timelines.
+
+Error Detection
+
+Identifies common error signals such as:
+
+5xx responses
+
+Timeouts
+
+Connection resets
+
+Exception patterns
+
+Secret Redaction
+
+Optionally replaces:
+
+Emails
+
+Bearer tokens
+
+API keys
+
+JWT-like strings
+
+password=, token= style values
+
+With [REDACTED] before document generation.
+
+Markdown Export
+
+Generated documents can be:
+
+Copied
+
+Downloaded as .md
+
+Used directly in GitHub, Notion, or internal tooling
+
+Architecture
+
+app/
+api/generate/route.ts → Deterministic document generator
+page.tsx → UI
+
+lib/
+parse.ts → Log parsing + timeline extraction
+redact.ts → Secret redaction
+templates.ts → Markdown templates
+
+test/
+parse.test.ts
+redact.test.ts
+
+API
+
+POST /api/generate
+
+Request body:
+
+{
+"type": "status" | "postmortem" | "actions",
+"title": "Incident title",
+"serviceName": "api",
+"customerImpact": "Users experienced latency",
+"rawText": "logs or timeline text",
+"redact": true
+}
+
+Response:
+
+{
+"markdown": "...",
+"meta": {
+"extractedTimestamps": number,
+"extractedErrors": number,
+"redacted": boolean
+}
+}
+
+Example Workflow
+
+Paste logs or timeline
+
+Enable redaction if needed
+
+Generate:
+
+Status Update for stakeholders
+
+Postmortem for internal review
+
+Action Items for follow-up
+
+Export Markdown
+
+QA & Testing
+
+Incident Scribe includes:
+
+Unit Tests (Vitest)
+
+Secret redaction correctness
+
+Timeline parsing accuracy
+
+Template rendering integrity
+
+Run:
+npm run test:run
+
+E2E Tests (Playwright)
+
+- Generate document from UI
+
+- Validate visible output
+
+Run:
+npm run test:e2e
+
+Development
+
+Requirements:
+
+- Node 18+
+
+Install:
+npm install
+
+Run locally:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build:
+npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Design Principles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deterministic output over probabilistic generation
 
-## Learn More
+Testable parsing logic
 
-To learn more about Next.js, take a look at the following resources:
+Security-aware redaction
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Minimal external dependencies
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Clear separation of parsing, transformation, and rendering
 
-## Deploy on Vercel
+Roadmap
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Deterministic chaos validation mode
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Export to PDF
+
+Incident severity tagging
+
+Structured JSON export
+
+Slack-ready status format
+
+License
+
+MIT
